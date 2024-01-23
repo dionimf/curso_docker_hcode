@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  postgresql:
+    image: postgres:latest
+    container_name: base_postgres
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: banco_teste
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    # - ./conf/postgresql.conf:/etc/postgresql/postgresql.conf
+    healthcheck:
+      test: ['CMD-SHELL', "sh -c 'pg_isready -U root -d banco_teste'"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      postgresql:
+        condition: service_healthy
