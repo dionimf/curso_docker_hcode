@@ -1,9 +1,9 @@
 version: '3.8'
 
 services:
-  nextjs:
+  angular:
     build: 
-      context: ./nextjs
+      context: ./base_angular
       dockerfile: Dockerfile
     ports:
-      - 3000:3000
+      - 8080:80
